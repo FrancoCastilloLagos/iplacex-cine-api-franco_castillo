@@ -12,18 +12,22 @@ const client = new MongoClient(uri, {
     strict: true,
     deprecationErrors: true,
   },
-  tls: true,                    
-  connectTimeoutMS: 10000,      
-  socketTimeoutMS: 45000,       
+  tls: true,                  
+  connectTimeoutMS: 10000,    
+  socketTimeoutMS: 45000,     
+  retryWrites: true,         
 });
 
-let db;
+let db; 
 
 export const connectToDB = async () => {
   if (!db) {
     try {
+     
       await client.connect();
-      db = client.db("cine-db"); 
+
+      db = client.db("cine-db");
+
       console.log("✅ Conectado a MongoDB Atlas");
     } catch (error) {
       console.error("❌ Error conectando a MongoDB Atlas:", error.message);
@@ -35,4 +39,9 @@ export const connectToDB = async () => {
 };
 
 
-export const getDB = () => db;
+export const getDB = () => {
+  if (!db) {
+    throw new Error("❌ La base de datos aún no está conectada. Ejecuta connectToDB primero.");
+  }
+  return db;
+};
