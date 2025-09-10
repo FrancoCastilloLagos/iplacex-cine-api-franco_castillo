@@ -12,7 +12,9 @@ const client = new MongoClient(uri, {
     strict: true,
     deprecationErrors: true,
   },
-  tls: true, 
+  tls: true,                    
+  connectTimeoutMS: 10000,      
+  socketTimeoutMS: 45000,       
 });
 
 let db;
@@ -25,10 +27,12 @@ export const connectToDB = async () => {
       console.log("✅ Conectado a MongoDB Atlas");
     } catch (error) {
       console.error("❌ Error conectando a MongoDB Atlas:", error.message);
+      console.error(error);
       throw error;
     }
   }
   return db;
 };
+
 
 export const getDB = () => db;
