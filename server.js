@@ -34,7 +34,7 @@ app.use((req, res) => {
 const startServer = async () => {
   try {
     await connectToDB();
-    console.log("Conexión a MongoDB Atlas exitosa");
+    console.log("✅ Conexión a MongoDB Atlas exitosa");
     app.listen(PORT, () => {
       console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
     });
